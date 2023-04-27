@@ -20,7 +20,7 @@ continueButton: {xpath: '//*[@id="content"]/form/div/div/input[2]'},
     I.fillField(this.emailField, user.email);
     I.fillField(this.phoneNumberField, user.phoneNumber);
     I.fillField(this.passwordField, user.password);
-    I.fillField(this.passwordConfirmField, user.passwordConfirm);
+    I.fillField(this.passwordConfirmField, user.password);
     I.click(this.privacyPolicyButton);
     I.click(this.continueButton);
 
