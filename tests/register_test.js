@@ -18,8 +18,7 @@ Scenario.only('register new user',  ({ I, basePage, registerPage }) => {
     basePage.clickMyRegisterLink();
     registerPage.verifyRegisterPage();
     registerPage.fillNewUserForm(NEW_USER);
-    pause();
-
+    
 });
 
 Scenario('grab price',  async ({ I }) => {
