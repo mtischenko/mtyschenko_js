@@ -2,9 +2,11 @@ const { I } = inject();
 
 module.exports = {
 
-  myAccountSpoiler: {xpath: "//*[@id='top-links']/ul/li/span/span"},
-  registerLink: {xpath: "//*[@id='top-links']/ul/li/ul/li[1]/a"},
+  myAccountSpoiler: {xpath: "//span[text()='My Account']"},
+  registerLink: {xpath: "//a[text()='Register']"},
   submitButton: {xpath: '//input[@type="submit"]'},
+  cartIcon: {xpath: "//*[@id='cart']"},
+  viewCartButton: {xpath: "//a[text()='View Cart']"},
 
   clickMyAccountSpoiler() {
     I.click(this.myAccountSpoiler);
@@ -20,5 +22,11 @@ module.exports = {
     I.click(this.submitButton);
   },
 
+  clickCartIcon() {
+    I.click(this.cartIcon);
+  },
 
+  clickViewCartButton() {
+    I.click(this.viewCartButton);
+  },
 }
