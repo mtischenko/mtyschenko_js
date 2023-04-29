@@ -29,4 +29,10 @@ module.exports = {
   clickViewCartButton() {
     I.click(this.viewCartButton);
   },
+
+  goToCart() {
+    this.clickCartIcon();
+    this.clickViewCartButton();
+  },
+  
 }

@@ -1,17 +1,19 @@
-const { groupCollapsed } = require("console");
+const product = require("../pages/product");
 
 const USER = {
-    email: 'testhfjshfkdsjfhsk@gmail.com',
+    email: 'mty@gmail.com',
     password: 'temp1234',
 
 };
 
 Feature('purchase');
 
-Scenario.only('buy product',  ({ I }) => {
+Scenario.only('buy product', ({ I, basePage }) => {
     I.login(USER);
     I.amOnPage("http://opencart.qatestlab.net/index.php?route=product/product&product_id=45");
-    I.selectProductAndCheckout();
-    I.wait(5);
+    const productPrice = product.getProductPrice();
+    product.selectProductAndCheckout();
+    basePage.goToCart();
+    //pause();
     
-})//.tag("buy");
+})
