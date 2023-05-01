@@ -11,42 +11,77 @@ const USER = {
     postCode: '03025',
 };
 
-
-
 Feature('purchase');
 
 Scenario.only('buy product', async ({ I, basePage }) => {
     I.login(USER);
+    basePage.clickCartIcon();
+
+    const isCartEmpty = await tryTo(() => I.see("YOUR SHOPPING CART IS EMPTY!"));
+
+    if (!isCartEmpty) {
+        basePage.clickViewCartButton();
+        const productsAmount = await I.grabNumberOfVisibleElements(checkout.shoppingCartItem);
+        if (productsAmount > 0) {
+          checkout.clickRemoveCartItem();
+        }
+    }
+
     I.amOnPage("http://opencart.qatestlab.net/index.php?route=product/product&product_id=45");
-    const productPrice = product.getProductPrice();
     product.selectProductAndCheckout();
     basePage.goToCart();
     product.clickCheckoutButton();
+
     I.waitForElement(checkout.existingUserBillingLabel);
     const isExistingUser = await tryTo(() => I.seeElement(checkout.existingUserBillingLabel));
-    //const deliveryMethod = await tryTo(() => I.seeElement({xpath: "//*[@id='collapse-shipping-method']/div/div[1]/label"}));
     if (!isExistingUser){
         checkout.fillBillingDetails(USER);
-
     } 
+
+    I.waitForElement(checkout.continueSubmitionButton);
     checkout.clickContinueButton();
 
     I.waitForElement(checkout.existingUserDeliveryLabel);
     const isExistingDeliveryAddress = await tryTo(() => I.seeElement(checkout.existingUserDeliveryLabel));
-    console.log(isExistingDeliveryAddress);
+
     if (!isExistingDeliveryAddress) {
         checkout.fillBillingDetails(USER);
-
     }
 
+    I.waitForElement(checkout.continueSubmitionButton);
     checkout.clickContinueButton();
 
-    // if (deliveryMethod) {
-    //     checkout.clickContinueButton();
-    // }
+    I.waitForElement(checkout.continueSubmitionButton);
+    checkout.clickContinueButton();
+
+    I.waitForElement(checkout.termsAndConditionsCheckBox);
+    I.checkOption(checkout.termsAndConditionsCheckBox);
+
+    I.waitForElement(checkout.continueSubmitionButton);
+    checkout.clickContinueButton();
+
+    let unitPrice = await I.grabTextFrom(checkout.unitPrice);
+    let totalProductPrice = await I.grabTextFrom(checkout.totalProductPrice);
+    let productQuantity = await I.grabTextFrom(checkout.productQuantity);
+    let shippingRate = await I.grabTextFrom(checkout.shippingRate);
+    let totalPrice = await I.grabTextFrom(checkout.totalPrice);
     
-    pause();
+    // remove $ sign
+    unitPrice = unitPrice.slice(1);
+    totalProductPrice = totalProductPrice.slice(1);
+    shippingRate = shippingRate.slice(1);
+    totalPrice = totalPrice.slice(1);
     
-    
+    // remove comma from the price
+    unitPrice = unitPrice.replaceAll(",","");
+    totalProductPrice = totalProductPrice.replaceAll(",","");
+    shippingRate = shippingRate.replaceAll(",","");
+    totalPrice = totalPrice.replaceAll(",","");
+
+    I.assertEqual(parseFloat(unitPrice) * parseFloat(productQuantity), parseFloat(totalProductPrice));
+    I.assertEqual(parseFloat(totalProductPrice) + parseFloat(shippingRate), parseFloat(totalPrice));
+
+    I.click(checkout.confirmCheckoutButton);
+    I.see('Your order has been placed!');
 
 })

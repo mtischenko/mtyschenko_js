@@ -39,9 +39,4 @@ module.exports = {
     
   },
 
-  getProductPrice() {
-    return I.grabTextFrom(this.productPrice);
-  },
-
-
 }

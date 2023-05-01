@@ -11,17 +11,22 @@ module.exports = {
   countryNameField: {xpath: "//li/a[@href='#220']"},
   regionNameFieldSelect: {xpath: "//label[@for='input-payment-zone']/following-sibling::div/div/a[@class='sbToggle']"},
   regionNameField: {xpath: "//li/a[@href='#3483']"},
+  termsAndConditionsCheckBox: {xpath: "//input[@id='agree1']"},
   continueSubmitionButton: {xpath: "//input[@value='Continue'][last()]"},
+  confirmCheckoutButton: {xpath: "//input[@id='button-confirm']"},
 
   existingUserBillingLabel: {xpath: "//*[@id='collapse-payment-address']/div/form/div[1]/label"},
   existingUserDeliveryLabel: {xpath: "//*[@id='collapse-shipping-address']/div/form/div[1]/label"},
+  existingDeliveryMethod: {xpath: "//label[@for='shipping_methodflat.flat4']"},
 
-//   paymentAddressContinueButton: {xpath: "//*[@id='button-payment-address']"},
-//   shippingAddressContinueButton: {xpath: "//*[@id='button-shipping-address']"},
-//   shippingMethodContinueButton: {xpath: "//*[@id='button-shipping-method]"},
-//   licenseAgreementCheckbox: {xpath: "//*[@id='agree1']"},
-//   paymentMethodContinueButton: {xpath: "//*[@id='button-payment-method']"},
-//   confirmOrderButton: {xpath: "//*[@id='button-confirm']"},
+  unitPrice: {xpath: "//table[@class='table table-bordered table-hover']/tbody/tr/td[4]"},
+  totalProductPrice: {xpath: "//table[@class='table table-bordered table-hover']/tbody/tr/td[5]"},
+  productQuantity: {xpath: "//table[@class='table table-bordered table-hover']/tbody/tr/td[3]"},
+  shippingRate: {xpath: "//table[@class='table table-bordered table-hover']/tfoot/tr[2]/td[2]"},
+  totalPrice: {xpath: "//table[@class='table table-bordered table-hover']/tfoot/tr[3]/td[2]"},
+
+  shoppingCartItem: {xpath: "//div[@class='table-responsive']/table[@class='table table-bordered']/tbody/tr"},
+  removeCartItem: {xpath: "//button[@data-original-title='Remove']"},
 
   fillBillingDetails(user) {
     I.fillField(this.firstNameField, user.firstName);
@@ -38,6 +43,10 @@ module.exports = {
 
   clickContinueButton() {
     I.click(this.continueSubmitionButton);
+  },
+
+  clickRemoveCartItem() {
+    I.click(this.removeCartItem);
   },
 
 }
